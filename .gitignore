@@ -142,4 +142,6 @@ t10k-labels-idx1-ubyte
 train-images-idx3-ubyte
 train-labels-idx1-ubyte
 mnist_scaled.npz
+EvaNumber.model
+
 
