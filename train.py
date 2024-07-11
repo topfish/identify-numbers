@@ -274,13 +274,14 @@ def main():
 
     if not os.path.exists('EvaNumber.model'):
         # 模型实例化
-        model = NeuralNetMLP(n_hidden=100,
-                             l2=0.01,
-                             epochs=20,
-                             eta=0.0005,
-                             minibatch_size=100,
-                             shuffle=True,
-                             seed=1)
+        import config
+        model = NeuralNetMLP(n_hidden=config.n_hidden,
+                             l2=config.l2,
+                             epochs=config.epochs,
+                             eta=config.eta,
+                             minibatch_size=config.minibatch_size,
+                             shuffle=config.minibatch_size,
+                             seed=config.seed)
         logger.info("训练模型")
         model.fit(X_train[:55000],
                   y_train[:55000],

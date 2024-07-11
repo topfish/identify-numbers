@@ -143,5 +143,6 @@ train-images-idx3-ubyte
 train-labels-idx1-ubyte
 mnist_scaled.npz
 EvaNumber.model
+test.py
 
 

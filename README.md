@@ -8,12 +8,15 @@
 
 数据集：*.gz
 
+配置文件：config.py
+
 
 
 #### 使用说明
 
 1.  获取代码：git clone https://gitee.com/yuyang888/identify-numbers.git
 2.  安装依赖：pip install requirements.tst
+3.  在config.py里设置模型训练参数
 3.  开始训练：python train.py
 
 
