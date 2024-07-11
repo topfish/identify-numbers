@@ -192,9 +192,11 @@ class NeuralNetMLP(object):
                 # 取一个小循环的数据
                 batch_idx = indices[start_idx:start_idx + self.minibatch_size]
 
-                # 执行前向计算（a_out是前向计算后经激活函数后的值）
+                # 1. 执行前向计算（a_out是前向计算后经激活函数后的值）
                 z_h, a_h, z_out, a_out = self._forward(X_train[batch_idx])
 
+                # 接下来是反向传播部分
+                # 2. 下面三步是计算误差
                 # 计算输出层的误差（a_out是模型的预测值，batch_idx是真实值）
                 delta_out = a_out - y_train_enc[batch_idx]
 
@@ -205,6 +207,7 @@ class NeuralNetMLP(object):
                 delta_h = (np.dot(delta_out, self.w_out.T) *
                            sigmoid_derivative_h)
 
+                # 3. 下面两步是梯度计算
                 # 计算输入到隐藏层权重和偏置的梯度
                 grad_w_h = np.dot(X_train[batch_idx].T, delta_h)
                 grad_b_h = np.sum(delta_h, axis=0)
@@ -213,13 +216,14 @@ class NeuralNetMLP(object):
                 grad_w_out = np.dot(a_h.T, delta_out)
                 grad_b_out = np.sum(delta_out, axis=0)
 
+                # 4. 下面两步是参数更新
                 # 应用 L2 正则化，并更新隐藏层到输入层的权重和偏置。
                 delta_w_h = (grad_w_h + self.l2 * self.w_h)
                 delta_b_h = grad_b_h  # bias is not regularized
                 self.w_h -= self.eta * delta_w_h
                 self.b_h -= self.eta * delta_b_h
 
-                # 更新隐藏层到输出层的权重和偏置。
+                # 应用 L2 正则化，更新隐藏层到输出层的权重和偏置。
                 delta_w_out = (grad_w_out + self.l2 * self.w_out)
                 delta_b_out = grad_b_out  # bias is not regularized
                 self.w_out -= self.eta * delta_w_out
